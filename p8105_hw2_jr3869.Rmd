@@ -7,7 +7,6 @@ output: html_document
 ```{r setup}
 library(tidyverse)
 library(readxl)
-
 ```
 #problem 1
 * Read and clean the data; retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance. Convert the entry variable from character (YES vs NO) to a logical variable (the ifelse or recode function may be useful).
@@ -55,7 +54,7 @@ The data is not tidy.
 * Answer the following questions using these data:
 
 ```{r distinct}
-newtrain_data=distinct(train_data, station_name, line, .keep_all = TRUE)
+newtrain_data = distinct(train_data, station_name, line, .keep_all = TRUE)
 ```
 
 How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St A/B/C/D; 125st 1; 125st 4/5); the distinct function may be useful here.
@@ -148,6 +147,29 @@ combine_data = full_join(precipitation_2016,precipitation_2017) %>%
 * Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in both resulting datasets, and give examples of key variables. For available data, what was the total precipitation in 2017? What was the median number of sports balls in a dumpster in 2016?
 
 In the Mr. Trash Wheel dataset, there are total `r nrow(trash_wheel)` dumpster observations with `r ncol(trash_wheel)-1` variables. Some examples of key variabes include weight and volume of each dumpster and the number of plastic bottles, polystyrene, etc. that it contained. Based on the dataset, the total number of plastic bottles collected by all dumpsters is `r sum(trash_wheel$plastic_bottles)`.The median number of sports balls in a dumpster in 2016 is `r median(year$sports_balls)`. In the precipitation dataset, the total precipitation in 2017 is `r sum(precipitation_2017$total)`. The number of observations in precipitaion 2016 is `r nrow(precipitation_2016)` and the number of observations in precipitation 2017 is `r nrow(precipitation_2017)`. More precipitions happaned in 2016 compared to 2017.
+
+#problem 3
+For this question:
+
+format the data to use appropriate variable names;
+
+focus on the “Overall Health” topic
+
+exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
+
+structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
+
+create a new variable showing the proportion of responses that were “Excellent” or “Very Good”
+```{r format_brfss_smart2010}
+library(p8105.datasets)
+brfss_smart2010 = p8105.datasets::brfss_smart2010 %>%
+  filter(Topic == "Overall Health") %>%
+  select(-Class, -Topic, -Question, -Sample_Size, -Confidence_limit_Low:-GeoLocation) %>%
+  spread(key = Response, value = Data_value) %>%
+  janitor::clean_names() %>%
+mutate(good_prop = (excellent + very_good)/(excellent + good +fair + poor+very_good))
+ 
+```
 
 
 
