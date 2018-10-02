@@ -83,4 +83,22 @@ vendyno = train_data %>%
 
 `r round(100 * entrytrue/vendyno, digits=2)`% of station entrances / exits without vending allow entrance.
 
+Reformat data so that route number and route name are distinct variables. How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?
+
+```{r reformat_data}
+reformat_data = train_data %>%
+  gather(key = route_number, value = route_name,route1:route11) 
+  
+trainA = reformat_data %>%
+  filter(route_name == "A")
+
+adatrue = reformat_data %>%
+  filter(route_name == "A") %>%
+  filter(ada == "TRUE")
+```
+
+`r nrow(distinct(trainA,line,station_name))` distinct stations serve the A train.
+
+`r nrow(distinct(adatrue,line, station_name))` distinct stations that serve the A train and are ADA compliant.
+
 
