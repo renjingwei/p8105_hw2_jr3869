@@ -101,4 +101,22 @@ adatrue = reformat_data %>%
 
 `r nrow(distinct(adatrue,line, station_name))` distinct stations that serve the A train and are ADA compliant.
 
+#problem2
+* Read and clean the Mr. Trash Wheel sheet:
 
+specify the sheet in the Excel file and to omit columns containing notes (using the range argument and cell_cols() function)
+
+use reasonable variable names
+
+omit rows that do not include dumpster-specific data
+
+rounds the number of sports balls to the nearest integer and converts the result to an integer variable (using  as.integer)
+```{r clean_sheet1}
+trash_wheel = 
+  read_excel('data/HealthyHarborWaterWheelTotals2017-9-26.xlsx', sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
+  janitor::clean_names() %>% 
+  filter(!is.na(dumpster)) %>% 
+  mutate(sports_balls = as.integer(round(sports_balls)))
+```
+
+* Read and clean precipitation data for 2016 and 2017. For each, omit rows without precipitation data and add a variable year. Next, combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).
