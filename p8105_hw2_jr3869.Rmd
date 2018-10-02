@@ -117,6 +117,10 @@ trash_wheel =
   janitor::clean_names() %>% 
   filter(!is.na(dumpster)) %>% 
   mutate(sports_balls = as.integer(round(sports_balls)))
+
+year = trash_wheel %>% 
+  filter(year == 2016)
+  
 ```
 
 * Read and clean precipitation data for 2016 and 2017. For each, omit rows without precipitation data and add a variable year. Next, combine datasets and convert month to a character variable (the variable month.name is built into R and should be useful).
@@ -136,9 +140,14 @@ precipitation_2017 =
 
 combine_data = full_join(precipitation_2016,precipitation_2017) %>%
   mutate(month = month.name[month])
+
+ 
 ```
 
 
-Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in both resulting datasets, and give examples of key variables. For available data, what was the total precipitation in 2017? What was the median number of sports balls in a dumpster in 2016?
+* Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in both resulting datasets, and give examples of key variables. For available data, what was the total precipitation in 2017? What was the median number of sports balls in a dumpster in 2016?
+
+In the Mr. Trash Wheel dataset, there are total `r nrow(trash_wheel)` dumpster observations with `r ncol(trash_wheel)-1` variables. Some examples of key variabes include weight and volume of each dumpster and the number of plastic bottles, polystyrene, etc. that it contained. Based on the dataset, the total number of plastic bottles collected by all dumpsters is `r sum(trash_wheel$plastic_bottles)`.The median number of sports balls in a dumpster in 2016 is `r median(year$sports_balls)`. In the precipitation dataset, the total precipitation in 2017 is `r sum(precipitation_2017$total)`. The number of observations in precipitaion 2016 is `r nrow(precipitation_2016)` and the number of observations in precipitation 2017 is `r nrow(precipitation_2017)`. More precipitions happaned in 2016 compared to 2017.
+
 
 
