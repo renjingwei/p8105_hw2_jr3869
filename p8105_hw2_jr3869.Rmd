@@ -1,0 +1,46 @@
+---
+title: "P8105_hw2"
+author: "Jingwei Ren"
+date: "10/2/2018"
+output: html_document
+---
+```{r setup}
+library(tidyverse)
+library(readxl)
+
+```
+#problem 1
+Read and clean the data; retain line, station, name, station latitude / longitude, routes served, entry, vending, entrance type, and ADA compliance. Convert the entry variable from character (YES vs NO) to a logical variable (the ifelse or recode function may be useful).
+```{r transit_data,message=FALSE}
+train_data = 
+  read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
+  janitor::clean_names() %>%
+  select(line:entry, vending, ada) %>% 
+  mutate(entry = recode(entry, `YES` = "TRUE", `NO` = "FALSE")) %>%
+  mutate(entry = as.logical(entry))
+
+```
+
+
+Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
+
+The dataset contain variables include:
+
+1.line
+2.station name
+3.station latitiude
+4.station longitude
+5.routes serveed
+6.entrance type
+7.entry indicating whether the station has entry or not
+8.vending showing whether the station has vending system
+9.ada compliance
+
+Cleaning steps:
+
+I imported the data, and cleaned the column names by the function clean_names in the janitor. Couple variables are selected from the orign dataset and the entry variable is converted to a logical factor. 
+
+The dimension of the resulting dataset is `r nrow(train_data)` rows by `r ncol(train_data)` columns.
+```{r}
+
+```
