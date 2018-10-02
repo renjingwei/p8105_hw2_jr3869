@@ -149,17 +149,17 @@ combine_data = full_join(precipitation_2016,precipitation_2017) %>%
 In the Mr. Trash Wheel dataset, there are total `r nrow(trash_wheel)` dumpster observations with `r ncol(trash_wheel)-1` variables. Some examples of key variabes include weight and volume of each dumpster and the number of plastic bottles, polystyrene, etc. that it contained. Based on the dataset, the total number of plastic bottles collected by all dumpsters is `r sum(trash_wheel$plastic_bottles)`.The median number of sports balls in a dumpster in 2016 is `r median(year$sports_balls)`. In the precipitation dataset, the total precipitation in 2017 is `r sum(precipitation_2017$total)`. The number of observations in precipitaion 2016 is `r nrow(precipitation_2016)` and the number of observations in precipitation 2017 is `r nrow(precipitation_2017)`. More precipitions happaned in 2016 compared to 2017.
 
 #problem 3
-For this question:
+* For this question:
 
-format the data to use appropriate variable names;
+* format the data to use appropriate variable names;
 
-focus on the “Overall Health” topic
+* focus on the “Overall Health” topic
 
-exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
+* exclude variables for class, topic, question, sample size, and everything from lower confidence limit to GeoLocation
 
-structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
+* structure data so that values for Response (“Excellent” to “Poor”) are column names / variables which indicate the proportion of subjects with each response (which are values of Data_value in the original dataset)
 
-create a new variable showing the proportion of responses that were “Excellent” or “Very Good”
+* create a new variable showing the proportion of responses that were “Excellent” or “Very Good”
 ```{r format_brfss_smart2010}
 library(p8105.datasets)
 brfss_smart2010 = p8105.datasets::brfss_smart2010 %>%
@@ -168,8 +168,31 @@ brfss_smart2010 = p8105.datasets::brfss_smart2010 %>%
   spread(key = Response, value = Data_value) %>%
   janitor::clean_names() %>%
 mutate(good_prop = (excellent + very_good)/(excellent + good +fair + poor+very_good))
- 
+
+table(brfss_smart2010$locationabbr)
+
 ```
+
+* Using this dataset, do or answer the following:
+
+How many unique locations are included in the dataset? Is every state represented? What state is observed the most?
+
+There are `r length(unique(brfss_smart2010$locationdesc))` unique locations in the dataset. Every state is represented. There are total `r length(unique(brfss_smart2010$locationabbr)) ` states. NJ has the highest 146 observations.
+
+In 2002, what is the median of the “Excellent” response value? Make a histogram of “Excellent” response values in the year 2002.
+
+```{r median_and_histogram}
+brfss_2002 = filter(brfss_smart2010, year == "2002") 
+
+ggplot(brfss_2002, aes(x=excellent)) +
+  geom_histogram()
+```
+the median of the “Excellent” response value is `r median(brfss_2002$excellent,na.rm = TRUE)`.
+
+
+
+Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
+
 
 
 
