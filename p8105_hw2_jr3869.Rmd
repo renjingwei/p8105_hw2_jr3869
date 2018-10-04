@@ -112,7 +112,7 @@ omit rows that do not include dumpster-specific data
 rounds the number of sports balls to the nearest integer and converts the result to an integer variable (using  as.integer)
 ```{r clean_sheet1}
 trash_wheel = 
-  read_excel('data/HealthyHarborWaterWheelTotals2017-9-26.xlsx', sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
+  read_excel('data/HealthyHarborWaterWheelTotals2018-7-28.xlsx', sheet = "Mr. Trash Wheel", range = cell_cols("A:N")) %>% 
   janitor::clean_names() %>% 
   filter(!is.na(dumpster)) %>% 
   mutate(sports_balls = as.integer(round(sports_balls)))
@@ -127,12 +127,12 @@ year = trash_wheel %>%
 
 ```{r clean_precipitation_data}
 precipitation_2016 = 
-  read_excel('data/HealthyHarborWaterWheelTotals2017-9-26.xlsx', sheet = '2016 Precipitation', range = 'A2:B14') %>% 
+  read_excel('data/HealthyHarborWaterWheelTotals2018-7-28.xlsx', sheet = '2016 Precipitation', range = 'A2:B14') %>% 
   janitor::clean_names() %>% 
   filter(!is.na(total)) %>% 
   mutate(year = '2016')
 precipitation_2017 = 
-  read_excel('data/HealthyHarborWaterWheelTotals2017-9-26.xlsx', sheet = '2017 Precipitation', range = 'A2:B14') %>% 
+  read_excel('data/HealthyHarborWaterWheelTotals2018-7-28.xlsx', sheet = '2017 Precipitation', range = 'A2:B14') %>% 
   janitor::clean_names() %>% 
   filter(!is.na(total)) %>% 
   mutate(year = '2017')
@@ -146,7 +146,7 @@ combine_data = full_join(precipitation_2016,precipitation_2017) %>%
 
 * Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in both resulting datasets, and give examples of key variables. For available data, what was the total precipitation in 2017? What was the median number of sports balls in a dumpster in 2016?
 
-In the Mr. Trash Wheel dataset, there are total `r nrow(trash_wheel)` dumpster observations with `r ncol(trash_wheel)-1` variables. Some examples of key variabes include weight and volume of each dumpster and the number of plastic bottles, polystyrene, etc. that it contained. Based on the dataset, the total number of plastic bottles collected by all dumpsters is `r sum(trash_wheel$plastic_bottles)`.The median number of sports balls in a dumpster in 2016 is `r median(year$sports_balls)`. In the precipitation dataset, the total precipitation in 2017 is `r sum(precipitation_2017$total)`. The number of observations in precipitaion 2016 is `r nrow(precipitation_2016)` and the number of observations in precipitation 2017 is `r nrow(precipitation_2017)`. More precipitions happaned in 2016 compared to 2017.
+In the Mr. Trash Wheel dataset, there are total `r nrow(trash_wheel)` dumpster observations with `r ncol(trash_wheel)-1` variables. Some examples of key variabes include weight and volume of each dumpster and the number of plastic bottles, polystyrene, etc. that it contained. Based on the dataset, the total number of plastic bottles collected by all dumpsters is `r sum(trash_wheel$plastic_bottles)`.The median number of sports balls in a dumpster in 2016 is `r median(year$sports_balls)`. In the precipitation dataset, the total precipitation in 2017 is `r sum(precipitation_2017$total)` and the total precipitation in 2016 is`r sum(precipitation_2016$total)`. The number of observations in precipitaion 2016 is `r nrow(precipitation_2016)` and the number of observations in precipitation 2017 is `r nrow(precipitation_2017)`. More precipitions happaned in 2016 compared to 2017.
 
 #problem 3
 * For this question:
